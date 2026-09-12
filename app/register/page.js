@@ -1,11 +1,11 @@
 "use client";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { apiFetch } from "@/lib/api";
 import GoogleButton from "@/components/GoogleButton";
 
-export default function RegisterPage() {
+function RegisterForm() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", password: "" });
   const [error, setError] = useState("");
   const router = useRouter();
@@ -53,5 +53,13 @@ export default function RegisterPage() {
         Already have an account? <Link href="/login" className="text-brand-600 hover:underline">Log in</Link>
       </p>
     </div>
+  );
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense>
+      <RegisterForm />
+    </Suspense>
   );
 }
