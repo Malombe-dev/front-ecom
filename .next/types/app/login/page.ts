@@ -1,4 +1,4 @@
-// File: /home/malombejnr/Downloads/ecommerce-app/frontend/app/login/page.js
+// File: /home/malombejnr/Desktop/lilly/front-ecom/app/login/page.js
 import * as entry from '../../../../app/login/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

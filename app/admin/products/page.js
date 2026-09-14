@@ -40,15 +40,15 @@ export default function AdminProductsPage() {
 
   return (
     <div>
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <h1 className="font-heading text-2xl font-bold text-ink-900">Products</h1>
-        <Link href="/admin/products/new" className="rounded-card bg-accent-500 px-4 py-2 font-semibold text-brand-900 hover:bg-accent-600">
+        <Link href="/admin/products/new" className="rounded-card bg-accent-500 px-4 py-2 text-sm font-semibold text-brand-900 hover:bg-accent-600">
           + Add product
         </Link>
       </div>
 
-      <div className="overflow-x-auto rounded-card border border-ink-300/30">
-        <table className="w-full text-left text-sm">
+      <div className="overflow-x-auto rounded-card border border-ink-300/30 bg-white shadow-xs">
+        <table className="w-full min-w-[540px] text-left text-sm">
           <thead className="bg-brand-100 text-ink-900">
             <tr>
               <th className="px-4 py-2">Name</th>

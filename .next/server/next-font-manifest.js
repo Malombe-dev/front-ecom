@@ -1,1 +1,1 @@
-self.__NEXT_FONT_MANIFEST="{\"pages\":{},\"app\":{\"/home/malombejnr/Downloads/ecommerce-app/frontend/app/layout\":[\"static/media/e4af272ccee01ff0-s.p.woff2\",\"static/media/3dc379dc9b5dec12-s.p.woff2\"]},\"appUsingSizeAdjust\":true,\"pagesUsingSizeAdjust\":false}"
+self.__NEXT_FONT_MANIFEST="{\"pages\":{},\"app\":{\"/home/malombejnr/Desktop/lilly/front-ecom/app/layout\":[\"static/media/e4af272ccee01ff0-s.p.woff2\",\"static/media/3dc379dc9b5dec12-s.p.woff2\"]},\"appUsingSizeAdjust\":true,\"pagesUsingSizeAdjust\":false}"

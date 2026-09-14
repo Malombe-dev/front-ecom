@@ -40,10 +40,10 @@ export default function AdminManagementPage() {
   }
 
   return (
-    <div className="max-w-xl">
+    <div className="w-full max-w-xl">
       <h1 className="mb-6 font-heading text-2xl font-bold text-ink-900">Admin accounts</h1>
 
-      <form onSubmit={handleSubmit} className="mb-8 flex flex-col gap-3 rounded-card border border-ink-300/30 p-4">
+      <form onSubmit={handleSubmit} className="mb-8 flex flex-col gap-3 rounded-card border border-ink-300/30 p-4 bg-white shadow-xs">
         <p className="text-sm font-medium text-ink-900">Create a new admin</p>
         <input required placeholder="Name" value={form.name} onChange={update("name")}
           className="rounded-card border border-ink-300/50 px-3 py-2 text-sm" />
@@ -59,13 +59,13 @@ export default function AdminManagementPage() {
 
       <div className="flex flex-col gap-2">
         {admins.map((a) => (
-          <div key={a._id} className="flex items-center justify-between rounded-card border border-ink-300/30 p-3">
-            <div>
-              <p className="font-medium text-ink-900">{a.name} <span className="text-xs uppercase text-ink-500">({a.role})</span></p>
-              <p className="text-sm text-ink-500">{a.email}</p>
+          <div key={a._id} className="flex flex-wrap items-center justify-between gap-3 rounded-card border border-ink-300/30 p-3 bg-white shadow-xs">
+            <div className="min-w-0 flex-1">
+              <p className="font-medium text-ink-900 break-words">{a.name} <span className="text-xs uppercase text-ink-500">({a.role})</span></p>
+              <p className="text-sm text-ink-500 break-words">{a.email}</p>
             </div>
             {a.role === "admin" && (
-              <button onClick={() => toggle(a._id)} className={`text-sm hover:underline ${a.isActive ? "text-danger-600" : "text-success-600"}`}>
+              <button onClick={() => toggle(a._id)} className={`text-sm font-medium hover:underline ${a.isActive ? "text-danger-600" : "text-success-600"}`}>
                 {a.isActive ? "Deactivate" : "Reactivate"}
               </button>
             )}

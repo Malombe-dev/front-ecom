@@ -8,6 +8,7 @@ import GoogleButton from "@/components/GoogleButton";
 function RegisterForm() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", password: "" });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   function update(field) {
@@ -17,11 +18,24 @@ function RegisterForm() {
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
+    setLoading(true);
+    const cleanEmail = form.email.trim().toLowerCase();
+
     try {
-      const data = await apiFetch("/auth/register", { method: "POST", body: form });
-      router.push(`/verify-email?userId=${data.userId}&email=${encodeURIComponent(form.email)}`);
+      const data = await apiFetch("/auth/register", {
+        method: "POST",
+        body: { ...form, email: cleanEmail },
+      });
+      const userIdParam = data.userId ? `userId=${data.userId}&` : "";
+      router.push(`/verify-email?${userIdParam}email=${encodeURIComponent(cleanEmail)}`);
     } catch (err) {
-      setError(err.message);
+      if (err.data?.userId || err.message?.toLowerCase().includes("verify")) {
+        const userIdParam = err.data?.userId ? `userId=${err.data.userId}&` : "";
+        router.push(`/verify-email?${userIdParam}email=${encodeURIComponent(cleanEmail)}`);
+        return;
+      }
+      setError(err.message || "Failed to create account");
+      setLoading(false);
     }
   }
 
@@ -44,8 +58,22 @@ function RegisterForm() {
         <input required type="password" placeholder="Password" value={form.password} onChange={update("password")}
           className="rounded-card border border-ink-300/50 px-3 py-2" />
         {error && <p className="text-sm text-danger-600">{error}</p>}
-        <button className="rounded-card bg-brand-900 py-2.5 font-semibold text-white hover:bg-brand-600">
-          Create account
+        <button
+          type="submit"
+          disabled={loading}
+          className="rounded-card bg-brand-900 py-2.5 font-semibold text-white hover:bg-brand-600 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        >
+          {loading ? (
+            <>
+              <svg className="h-5 w-5 animate-spin text-white" viewBox="0 0 24 24" fill="none">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+              </svg>
+              <span>Creating account...</span>
+            </>
+          ) : (
+            "Create account"
+          )}
         </button>
       </form>
 

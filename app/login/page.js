@@ -10,6 +10,7 @@ function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -17,15 +18,23 @@ function LoginForm() {
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
+    setLoading(true);
+    const cleanEmail = email.trim().toLowerCase();
+
     try {
-      const data = await apiFetch("/auth/login", { method: "POST", body: { email, password } });
+      const data = await apiFetch("/auth/login", {
+        method: "POST",
+        body: { email: cleanEmail, password },
+      });
       login(data.token, data.user);
       router.push(searchParams.get("next") || "/");
     } catch (err) {
-      if (err.message.includes("verify")) {
-        router.push(`/verify-email?email=${encodeURIComponent(email)}`);
+      if (err.message?.toLowerCase().includes("verify") || err.data?.needsVerification) {
+        const uid = err.data?.userId ? `&userId=${err.data.userId}` : "";
+        router.push(`/verify-email?email=${encodeURIComponent(cleanEmail)}${uid}`);
       } else {
-        setError(err.message);
+        setError(err.message || "Failed to log in");
+        setLoading(false);
       }
     }
   }
@@ -53,8 +62,22 @@ function LoginForm() {
           className="rounded-card border border-ink-300/50 px-3 py-2"
         />
         {error && <p className="text-sm text-danger-600">{error}</p>}
-        <button className="rounded-card bg-brand-900 py-2.5 font-semibold text-white hover:bg-brand-600">
-          Log in
+        <button
+          type="submit"
+          disabled={loading}
+          className="rounded-card bg-brand-900 py-2.5 font-semibold text-white hover:bg-brand-600 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        >
+          {loading ? (
+            <>
+              <svg className="h-5 w-5 animate-spin text-white" viewBox="0 0 24 24" fill="none">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+              </svg>
+              <span>Logging in...</span>
+            </>
+          ) : (
+            "Log in"
+          )}
         </button>
       </form>
 

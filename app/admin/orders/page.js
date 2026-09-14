@@ -31,7 +31,7 @@ export default function AdminOrdersPage() {
     <div>
       <h1 className="mb-4 font-heading text-2xl font-bold text-ink-900">Orders</h1>
 
-      <div className="mb-4 flex gap-2">
+      <div className="mb-4 flex flex-wrap gap-2">
         <button onClick={() => setFilter("")} className={`rounded-full px-3 py-1 text-xs font-semibold ${!filter ? "bg-brand-900 text-white" : "bg-brand-100 text-brand-900"}`}>
           All
         </button>
@@ -45,11 +45,11 @@ export default function AdminOrdersPage() {
 
       <div className="flex flex-col gap-3">
         {orders.map((o) => (
-          <div key={o._id} className="rounded-card border border-ink-300/30 p-4">
+          <div key={o._id} className="rounded-card border border-ink-300/30 p-4 bg-white">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <div>
-                <p className="font-medium text-ink-900">Order #{o._id.slice(-6).toUpperCase()} — {o.user?.name}</p>
-                <p className="text-sm text-ink-500">{o.user?.email} · {o.phone} · near {o.landmark}</p>
+              <div className="min-w-0 flex-1">
+                <p className="font-medium text-ink-900 break-words">Order #{o._id.slice(-6).toUpperCase()} — {o.user?.name}</p>
+                <p className="text-sm text-ink-500 break-words">{o.user?.email} · {o.phone} · near {o.landmark}</p>
                 <p className="text-sm text-ink-500">
                   {new Date(o.createdAt).toLocaleString()} · KSh {o.totalAmount.toLocaleString()}
                 </p>
